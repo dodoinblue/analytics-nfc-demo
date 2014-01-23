@@ -21,10 +21,12 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Bytes;
@@ -104,5 +106,18 @@ public class FakeTagsActivity extends ListActivity {
         final Intent intent = new Intent(NfcAdapter.ACTION_TAG_DISCOVERED);
         intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, description.msgs);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+        Log.i("Charles_TAG", "Activity Start");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 }

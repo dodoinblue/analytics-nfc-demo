@@ -29,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.android.nfc.record.ParsedNdefRecord;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 
 import java.util.List;
 
@@ -95,6 +97,13 @@ public class TagViewer extends Activity {
         if (msgs == null || msgs.length == 0) {
             return;
         }
+        EasyTracker.getInstance(this).send(MapBuilder.createEvent(
+                "CATEGORY_NFC",
+                "ACTION_TAG_DETECT",
+                "LABEL_NEW_TAG",
+                0L
+        ).build());
+        Log.i("Charles_TAG", "Event sent");
         LayoutInflater inflater = LayoutInflater.from(this);
         LinearLayout content = mTagContent;
         // Clear out any old views in the content area, for example if you scan
