@@ -27,6 +27,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Bytes;
@@ -111,7 +113,13 @@ public class FakeTagsActivity extends ListActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
+        EasyTracker tracker = EasyTracker.getInstance(this);
+        tracker.send(MapBuilder
+                .createAppView()
+                .set(Fields.SCREEN_NAME, "FakeTagsActivity")
+                .set(Fields.customDimension(1), "vipUser")
+        .build()
+        );
         Log.i("Charles_TAG", "Activity Start");
     }
 
